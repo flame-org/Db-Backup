@@ -1,0 +1,39 @@
+{
+  "name": "flame/db-backup",
+  "type": "library",
+  "description": "Library for creating database backups especially in shared hostings.",
+  "keywords": ["database", "backup", "database backups", "flame", "jsifalda", "library"],
+  "homepage": "https://github.com/flame-org/Db-Backup",
+  "license": "BSD-2-Clause-FreeBSD",
+  "minimum-stability": "dev",
+
+  "authors": [
+    {
+      "name": "Jiří Šifalda",
+      "homepage": "http://jsifalda.name/"
+    }
+  ],
+
+  "support": {
+    "email": "flame@jsifalda.name",
+    "issues": "https://github.com/flame-org/Db-Backup/issues"
+  },
+
+  "require": {
+    "php": ">=5.3.2"
+  },
+
+  "suggest": {
+    "nette/nette": "*"
+  },
+
+  "config": {
+    "vendor-dir": "libs"
+  },
+
+  "autoload": {
+    "psr-0": {
+      "Flame": ""
+    }
+  }
+}
