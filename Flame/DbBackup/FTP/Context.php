@@ -57,7 +57,7 @@ class Context
 	public function upload($file, $additionalPath = null)
 	{
 		$path = $this->getPath($file, $additionalPath);
-		return ftp_put($this->getConnection(), $path, $file, FTP_ASCII);
+		return @ftp_put($this->getConnection(), $path, $file, FTP_ASCII);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Context
 
 	function __destruct()
 	{
-		ftp_close($this->getConnection());
+		@ftp_close($this->getConnection());
 	}
 
 

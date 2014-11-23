@@ -6,24 +6,25 @@ namespace Flame\DbBackup;
 
 use Flame\DbBackup\Database\Schema;
 use Flame\DbBackup\FTP\Context;
+use Tracy\Debugger;
 
 class Backup implements IBackup
 {
 
-	/** @var  Schema */
-	private $schema;
+	/** @var ContextContainer  */
+	private $container;
 
 	/** @var  Context */
 	private $ftp;
 
 	/**
 	 * @param Context $ftp
-	 * @param Schema $schema
+	 * @param ContextContainer $contextContainer
 	 */
-	function __construct(Context $ftp, Schema $schema)
+	function __construct(Context $ftp, ContextContainer $contextContainer)
 	{
 		$this->ftp = $ftp;
-		$this->schema = $schema;
+		$this->container = $contextContainer;
 	}
 
 	/**
@@ -38,11 +39,29 @@ class Backup implements IBackup
 			}
 		}
 
-		$backupName = $this->getBackupFileName();
-		$localPath = $tempDirPath . DIRECTORY_SEPARATOR . $backupName;
-		$schema = $this->schema->create();
+		foreach($this->container->getSchemas() as $k => $schema) {
 
-		if (file_put_contents($localPath, $schema) === false) {
+			try {
+
+				$backupName = $this->getBackupFileName($k);
+				$path = $tempDirPath . DIRECTORY_SEPARATOR . $backupName;
+
+				$this->process($path, $schema);
+
+			} catch (\Exception $e) {
+				Debugger::log($e);
+			}
+
+		}
+	}
+
+
+	private function process($localPath, Schema $schema)
+	{
+
+		$backup = $schema->create();
+
+		if (file_put_contents($localPath, $backup) === false) {
 			throw new \ErrorException('Creating of sql file failed.');
 		}
 
@@ -55,10 +74,11 @@ class Backup implements IBackup
 
 
 	/**
+	 * @param $counter
 	 * @return string
 	 */
-	protected function getBackupFileName()
+	private function getBackupFileName($counter)
 	{
-		return 'db_backup[' . date("d.m.Y-H:i") . '].sql';
+		return 'db_backup_' . $counter . '_[' . date("d.m.Y-H:i") . '].sql';
 	}
 }

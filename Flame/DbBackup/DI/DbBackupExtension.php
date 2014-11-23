@@ -24,12 +24,6 @@ class DbBackupExtension extends CompilerExtension
 	{
 		$container = $this->getContainerBuilder();
 		$config = $this->getConfig($this->defaults);
-		
-		$container->addDefinition($this->prefix('dbSchema'))
-			->setClass('Flame\DbBackup\Database\Schema');
-
-		$container->addDefinition($this->prefix('dbContext'))
-			->setClass('Flame\DbBackup\Database\Context');
 
 		$container->addDefinition($this->prefix('dbBackup'))
 			->setClass('Flame\DbBackup\Backup');
