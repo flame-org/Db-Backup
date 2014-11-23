@@ -22,4 +22,9 @@ interface IContext
 	 * @return string
 	 */
 	public function getCharset();
+
+	/**
+	 * @return \PDO
+	 */
+	public function getConnection();
 } 

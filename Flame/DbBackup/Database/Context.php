@@ -32,7 +32,7 @@ class Context implements IContext
 	 */
 	public function getTable($name)
 	{
-		return new Table($name, $this->driver);
+		return new Table($name, $this);
 	}
 
 	/**
@@ -43,5 +43,11 @@ class Context implements IContext
 		return $this->driver->getCharset();
 	}
 
-
+	/**
+	 * @return \PDO
+	 */
+	public function getConnection()
+	{
+		return $this->driver->getConnection();
+	}
 }

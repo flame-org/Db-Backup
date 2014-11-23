@@ -11,19 +11,19 @@ class Table implements ITable
 	private $statement;
 
 	/** @var IDriver */
-	private $driver;
+	private $context;
 
 	/** @var  string */
 	private $tableName;
 
 	/**
-	 * @param string $table
-	 * @param IDriver $driver
+	 * @param $table
+	 * @param IContext $context
 	 */
-	function __construct($table, IDriver $driver)
+	function __construct($table, IContext $context)
 	{
 		$this->tableName = (string) $table;
-		$this->driver = $driver;
+		$this->context = $context;
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Table implements ITable
 	private function getStatement()
 	{
 		if ($this->statement === null) {
-			$this->statement = $this->driver->getConnection()->query('SELECT * FROM ' . addslashes($this->tableName));
+			$this->statement = $this->context->getConnection()->query('SELECT * FROM ' . addslashes($this->tableName));
 		}
 
 		return $this->statement;
@@ -67,7 +67,7 @@ class Table implements ITable
 	 */
 	public function getTableSchema()
 	{
-		$result = $this->driver->getConnection()->query('SHOW CREATE TABLE . ' . addslashes($this->tableName))->fetch(\PDO::FETCH_ASSOC);
+		$result = $this->context->getConnection()->query('SHOW CREATE TABLE . ' . addslashes($this->tableName))->fetch(\PDO::FETCH_ASSOC);
 		if (isset($result['Create Table'])) {
 			return $result['Create Table'];
 		}
