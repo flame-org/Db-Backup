@@ -17,4 +17,9 @@ interface IContext
 	 * @return ITable
 	 */
 	public function getTable($name);
+
+	/**
+	 * @return string
+	 */
+	public function getCharset();
 } 

@@ -34,4 +34,14 @@ class Context implements IContext
 	{
 		return new Table($name, $this->driver);
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getCharset()
+	{
+		return $this->driver->getCharset();
+	}
+
+
 }

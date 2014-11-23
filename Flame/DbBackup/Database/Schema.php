@@ -9,17 +9,12 @@ class Schema
 	/** @var IContext  */
 	private $database;
 
-	/** @var  IDriver */
-	private $driver;
-
 	/**
 	 * @param IContext $database
-	 * @param IDriver $driver
 	 */
-	function __construct(IContext $database, IDriver $driver)
+	function __construct(IContext $database)
 	{
 		$this->database = $database;
-		$this->driver = $driver;
 	}
 
 	/**
@@ -28,7 +23,7 @@ class Schema
 	public function create()
 	{
 		$return = "";
-		$return .= 'SET NAMES ' . $this->driver->getCharset() . ';' . PHP_EOL;
+		$return .= 'SET NAMES ' . $this->database->getCharset() . ';' . PHP_EOL;
 		$return .= 'SET foreign_key_checks = 0;' . PHP_EOL;
 		$return .= 'SET sql_mode = \'NO_AUTO_VALUE_ON_ZERO\';' . PHP_EOL . PHP_EOL;
 
